@@ -1,0 +1,176 @@
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: true
+  disableRememberMe: false
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodes:
+    - permanent:
+        name: "slave01"
+        numExecutors: 1
+        remoteFS: "/var/jenkins_home"
+        retentionStrategy: "always"
+        launcher:
+          ssh:
+            credentialsId: "SlaveSSHAuth"
+            host: "slave01"
+            launchTimeoutSeconds: 210
+            maxNumRetries: 10
+            port: 22
+            retryWaitTime: 15
+            sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+    - permanent:
+        name: "slave02"
+        numExecutors: 1
+        remoteFS: "/var/jenkins_home"
+        retentionStrategy: "always"
+        launcher:
+          ssh:
+            credentialsId: "SlaveSSHAuth"
+            host: "slave02"
+            launchTimeoutSeconds: 210
+            maxNumRetries: 10
+            port: 22
+            retryWaitTime: 15
+            sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  # securityRealm:
+  #   ldap:
+  #     configurations:
+  #     - groupSearchBase: ""
+  #       inhibitInferRootDN: false
+  #       managerDN: ""
+  #       managerPasswordSecret: ""
+  #       rootDN: ""
+  #       server: ""
+  #       userSearch: ""
+  #       userSearchBase: ""
+  #     disableMailAddressResolver: false
+  #     disableRolePrefixing: true
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: "admin"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description: "Slave SSH User"
+          id: "SlaveSSHAuth"
+          scope: GLOBAL
+          username: "root"
+          password: "root"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  downloadSettings:
+    useBrowser: false
+  remotingCLI:
+    enabled: false
+  sSHD:
+    port: -1
+unclassified:
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketCloudEndpoint:
+        enableCache: false
+        manageHooks: false
+        repositoriesCacheDuration: 0
+        teamCacheDuration: 0
+  buildMonitorView:
+    permissionToCollectAnonymousUsageStatistics: true
+  buildStepOperation:
+    enabled: false
+  extendedEmailPublisher:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:\n\nCheck\
+      \ console output at $BUILD_URL to view the results."
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: 0
+    precedenceBulk: false
+    useSsl: false
+    watchingEnabled: false
+  gitHubPluginConfig:
+    hookUrl: "http://127.0.0.1:8080/github-webhook/"
+  gitLabConnectionConfig:
+    connections:
+    - clientBuilderId: "autodetect"
+      connectionTimeout: 10
+      ignoreCertificateErrors: false
+      readTimeout: 10
+  gitSCM:
+    createAccountBasedOnEmail: false
+  location:
+    adminAddress: "nobody <nobody@nowhere>"
+    url: "http://127.0.0.1:8080/"
+  mailer:
+    adminAddress: "nobody <nobody@nowhere>"
+    charset: "UTF-8"
+    useSsl: false
+  pollSCM:
+    pollingThreadCount: 10
+  slackNotifier:
+    botUser: false
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: false
+  timestamperConfig:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+
+# global setting
+tool:
+  ant:
+    installations:
+    - home: "/usr/share/ant"
+      name: "Default"
+  git:
+    installations:
+    - home: "/usr/bin/git"
+      name: "Default"
+  gradle:
+    installations:
+    - home: "/usr/local/gradle"
+      name: "Default"
+  jdk:
+    installations:
+    - home: "/usr/lib/jvm/java-8-openjdk-amd64"
+      name: "Default"
+  maven:
+    installations:
+    - home: "/usr/share/maven"
+      name: "Default"

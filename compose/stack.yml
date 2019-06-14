@@ -1,0 +1,137 @@
+version: '3.6'
+services:
+    master:
+        image: showerlee/jenkins:2.164.1
+        ports:
+            - 20000:8080/tcp
+            - 50000:50000/tcp
+        networks:
+            jenkins-network:
+        depends_on:
+            - slave01
+            - slave02
+        environment:
+            - CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
+            - TZ=Asia/Shanghai
+            - LANG=zh_CN.UTF-8
+        configs:
+          - source: jenkins-cfg
+            target: /var/jenkins_home/casc_configs/jenkins.yaml
+        volumes:
+            - jenkins_test:/var/jenkins_home:rw
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            #- /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        healthcheck:
+            test: ["CMD-SHELL", "curl -s  http://127.0.0.1:8080 -o /dev/null || exit 1"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+        deploy:
+            replicas: 1
+            mode: replicated
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: '1Gi'
+            #     reservations:
+            #         cpus: '4'
+            #         memory: '4Gi'
+            update_config:
+                order: stop-first
+                parallelism: 1
+                delay: 10s
+            placement:
+                constraints:
+                    - node.labels.jenkins == master
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+    slave01:
+        image: showerlee/jenkins-slave:2.164.1
+        networks:
+            jenkins-network:
+        environment:
+            - LANG=zh_CN.UTF-8
+            - TZ=Asia/Shanghai
+            - JAVA_OPTS="-Dfile.encoding=UTF-8"
+        volumes:
+            - slave01_test:/var/jenkins_home
+            #- /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        deploy:
+            replicas: 1
+            mode: replicated
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: '1Gi'
+            update_config:
+                order: stop-first
+                parallelism: 1
+                delay: 10s
+            placement:
+                constraints:
+                    - node.labels.jenkins == slave01
+        healthcheck:
+            test: ["CMD-SHELL", "nc -v -w 10 -z 127.0.0.1 22"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+    slave02:
+        image: showerlee/jenkins-slave:2.164.1
+        networks:
+            jenkins-network:
+        environment:
+            - LANG=zh_CN.UTF-8
+            - TZ=Asia/Shanghai
+            - JAVA_OPTS="-Dfile.encoding=UTF-8"
+        volumes:
+            #- /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - slave02_test:/var/jenkins_home
+        deploy:
+            replicas: 1
+            mode: replicated
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: '1Gi'
+            update_config:
+                order: stop-first
+                parallelism: 1
+                delay: 10s
+            placement:
+                constraints:
+                    - node.labels.jenkins == slave02
+        healthcheck:
+            test: ["CMD-SHELL", "nc -v -w 10 -z 127.0.0.1 22"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+volumes:
+    jenkins_test: {}
+    slave01_test: {}
+    slave02_test: {}
+
+configs:
+    jenkins-cfg:
+        file: ./conf/jenkins.yaml
+
+networks:
+    jenkins-network:
+        # external: true
