@@ -8,7 +8,9 @@ Docker: 17.06.0+
 ## Architecture
 
 Docker manager --> Jenkins master
+
 Docker worker1 --> Jenkins slave01
+
 Docker worker2 --> Jenkins slave02
 
 ## 1.Build docker images
