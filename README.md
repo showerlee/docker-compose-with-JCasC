@@ -13,6 +13,9 @@ Docker worker1 --> Jenkins slave01
 
 Docker worker2 --> Jenkins slave02
 
+## 0.Establish docker swarm cluster
+refer to: http://www.showerlee.com/archives/2842
+
 ## 1.Build docker images
 ```
 cd compose/jenkins/
