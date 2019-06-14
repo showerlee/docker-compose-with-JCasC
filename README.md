@@ -3,6 +3,7 @@
 ## Docker Version Support
 
 Docker client: 17.06.0+
+
 Docker swarm: 17.06.0+
 
 ## Build docker images
