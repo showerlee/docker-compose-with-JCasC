@@ -5,6 +5,12 @@ The following is how to deploy Jenkins based on human-readable declarative confi
 
 Docker: 17.06.0+
 
+## Architecture
+
+Docker manager --> Jenkins master
+Docker worker1 --> Jenkins slave01
+Docker worker2 --> Jenkins slave02
+
 ## 1.Build docker images
 ```
 cd compose/jenkins/
@@ -12,19 +18,18 @@ docker build -t showerlee/jenkins:2.164.1 .
 cd compose/jenkins-slave-ssh/
 docker build -t showerlee/jenkins-slave:2.164.1 .
 ```
-## Set docker swarm node labels
+## 2.Set docker swarm node labels
 ```
 docker node update --label-add jenkins=master manager
 docker node update --label-add jenkins=slave01 worker1
 docker node update --label-add jenkins=slave02 worker2
 ```
 
-## 2.Start Jenkins cluster via docker swarm(1 master and 2 slaves)
+## 3.Rollout Jenkins cluster via docker swarm
 ```
 cd compose/
 docker stack deploy -c stack.yml jenkins
 ```
-
 
 ## Links
 
