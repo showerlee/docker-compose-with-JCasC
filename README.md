@@ -32,6 +32,8 @@ docker stack deploy -c stack.yml jenkins
 
 ## Plugin Links
 
+* https://github.com/jenkinsci/configuration-as-code-plugin
+
 * https://wiki.jenkins.io/display/JENKINS/Docker+Plugin
 
 * https://github.com/jenkinsci/docker-swarm-plugin
