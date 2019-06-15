@@ -36,6 +36,12 @@ cd compose/
 docker stack deploy -c stack.yml jenkins
 ```
 
+## 4.Login Jenkins with the following credential
+```
+username: admin
+password: admin
+```
+
 ## Links
 
 * https://github.com/jenkinsci/docker/blob/master/README.md
