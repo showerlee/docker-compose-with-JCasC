@@ -43,6 +43,8 @@ curl http://127.0.0.1:20000
 # password: admin
 ```
 
+![Jenkins](https://github.com/showerlee/Jenkins-Pipeline-CI-CD-with-Helm-on-Kubernetes/blob/master/Jenkins/kube-helm-pipeline.png?raw=true "docker-compose-with-JCasC")
+
 ## Links
 
 * https://github.com/jenkinsci/docker/blob/master/README.md
