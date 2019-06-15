@@ -38,8 +38,9 @@ docker stack deploy -c stack.yml jenkins
 
 ## 4.Login Jenkins with the following credential
 ```
-username: admin
-password: admin
+curl http://127.0.0.1:20000
+# username: admin
+# password: admin
 ```
 
 ## Links
