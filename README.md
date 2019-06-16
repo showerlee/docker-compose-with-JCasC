@@ -32,7 +32,12 @@ docker node update --label-add jenkins=slave02 worker2
 
 ## 3.Rollout Jenkins cluster via docker swarm
 ```
-cd compose/
+cd compose/jenkins
+docker stack deploy -c stack.yml jenkins
+```
+```
+# try jenkins-apm if you have an apm server
+cd compose/jenkins-apm
 docker stack deploy -c stack.yml jenkins
 ```
 
