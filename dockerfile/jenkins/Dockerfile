@@ -1,5 +1,5 @@
-FROM jenkins/jenkins:2.164.1
-MAINTAINER "showerlee" <showerlee@vip.qq.com>
+FROM jenkins/jenkins:2.255
+LABEL MAINTAINER="showerlee <showerlee@vip.qq.com>"
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV JRE_HOME $JAVA_HOME/jre
@@ -15,13 +15,13 @@ RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/dock
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz
 
-# # download Kubernetes bin file
-# ENV KUBE_VERSION=v1.13.0
-# RUN wget https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/kubernetes-server-linux-amd64.tar.gz -O /usr/local/src/kubernetes-server-linux-amd64.tar.gz \
-#     && tar -zxvf /usr/local/src/kubernetes-server-linux-amd64.tar.gz  \
-#         --strip-components=3 -C /usr/local/bin \
-#         kubernetes/server/bin/kubectl \
-#     && rm -rf /usr/local/src/kubernetes-server-linux-amd64.tar.gz
+# download Kubernetes bin file
+ENV KUBE_VERSION=v1.17.2
+RUN wget https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/kubernetes-server-linux-amd64.tar.gz -O /usr/local/src/kubernetes-server-linux-amd64.tar.gz \
+    && tar -zxvf /usr/local/src/kubernetes-server-linux-amd64.tar.gz  \
+        --strip-components=3 -C /usr/local/bin \
+        kubernetes/server/bin/kubectl \
+    && rm -rf /usr/local/src/kubernetes-server-linux-amd64.tar.gz
 
 # ANT
 RUN apt-get update \
